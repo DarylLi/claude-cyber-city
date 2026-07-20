@@ -1,0 +1,19 @@
+{
+  "name": "cc-cyber-city",
+  "version": "1.0.0",
+  "description": "Procedural cyberpunk megacity — Three.js WebGPURenderer + TSL, weather system, node-based post-fx.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lil-gui": "^0.20.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
