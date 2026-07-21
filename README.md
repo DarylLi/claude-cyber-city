@@ -1,5 +1,9 @@
 # Neon Meridian
 
+## Contributors
+
+- Claude
+
 A procedural cyberpunk megacity, rendered with **Three.js WebGPURenderer + TSL**. Built as a
 "do it better" take on the recently-viral `cyberpunk-megapolis` demo: same pitch (endless neon
 city, fly around, watch it rain), rebuilt from scratch on the WebGPU node pipeline instead of
