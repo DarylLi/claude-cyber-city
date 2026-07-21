@@ -1,5 +1,8 @@
 # Neon Meridian
 
+<img width="1916" height="861" alt="image" src="https://github.com/user-attachments/assets/aea8ac49-b46d-408f-a422-69cb0098d880" />
+
+
 ## Contributors
 
 - Claude
