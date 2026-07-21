@@ -2,56 +2,174 @@
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>NEON MERIDIAN — WebGPU Cyberpunk City</title>
     <style>
-      :root { color-scheme: dark; }
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
-      body { font-family: 'Segoe UI', 'PingFang SC', system-ui, sans-serif; }
-      #app { position: fixed; inset: 0; }
-      canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+      body {
+        font-family: "Segoe UI", "PingFang SC", system-ui, sans-serif;
+      }
+      #app {
+        position: fixed;
+        inset: 0;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
 
       #boot {
-        position: fixed; inset: 0; z-index: 50;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        background: radial-gradient(ellipse at 50% 40%, #0a0518 0%, #030109 60%, #000 100%);
-        color: #7cf7ff; letter-spacing: 0.35em; text-transform: uppercase;
-        transition: opacity .8s ease;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(
+          ellipse at 50% 40%,
+          #0a0518 0%,
+          #030109 60%,
+          #000 100%
+        );
+        color: #7cf7ff;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        transition: opacity 0.8s ease;
       }
-      #boot .title { font-size: 15px; margin-bottom: 18px; text-shadow: 0 0 12px #7cf7ff, 0 0 30px #ff2fd0; }
-      #boot .bar { width: 260px; height: 2px; background: rgba(124,247,255,.15); position: relative; overflow: hidden; }
-      #boot .bar i { position: absolute; inset: 0; width: 30%; background: linear-gradient(90deg, transparent, #7cf7ff, #ff2fd0, transparent); animation: sweep 1.1s ease-in-out infinite; }
-      #boot .sub { margin-top: 14px; font-size: 10px; color: #566; letter-spacing: 0.2em; }
-      @keyframes sweep { 0% { left: -30%; } 100% { left: 100%; } }
-      #boot.hidden { opacity: 0; pointer-events: none; }
+      #boot .title {
+        font-size: 15px;
+        margin-bottom: 18px;
+        text-shadow:
+          0 0 12px #7cf7ff,
+          0 0 30px #ff2fd0;
+      }
+      #boot .bar {
+        width: 260px;
+        height: 2px;
+        background: rgba(124, 247, 255, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+      #boot .bar i {
+        position: absolute;
+        inset: 0;
+        width: 30%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #7cf7ff,
+          #ff2fd0,
+          transparent
+        );
+        animation: sweep 1.1s ease-in-out infinite;
+      }
+      #boot .sub {
+        margin-top: 14px;
+        font-size: 10px;
+        color: #566;
+        letter-spacing: 0.2em;
+      }
+      @keyframes sweep {
+        0% {
+          left: -30%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      #boot.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
 
       #hint {
-        position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
-        color: #9fb3c8; font-size: 11px; letter-spacing: 0.08em; text-align: center;
-        background: rgba(4,8,16,0.45); padding: 8px 16px; border: 1px solid rgba(124,247,255,0.15);
-        border-radius: 3px; backdrop-filter: blur(6px); pointer-events: none; z-index: 20;
-        transition: opacity .6s ease;
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        color: #9fb3c8;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-align: center;
+        background: rgba(4, 8, 16, 0.45);
+        padding: 8px 16px;
+        border: 1px solid rgba(124, 247, 255, 0.15);
+        border-radius: 3px;
+        backdrop-filter: blur(6px);
+        pointer-events: none;
+        z-index: 20;
+        transition: opacity 0.6s ease;
       }
-      #hint.hidden { opacity: 0; }
+      #hint.hidden {
+        opacity: 0;
+      }
 
       #brand {
-        position: fixed; top: 16px; left: 18px; z-index: 20; pointer-events: none;
-        color: #cfe9ff; text-shadow: 0 0 10px rgba(124,247,255,.6);
+        position: fixed;
+        top: 16px;
+        left: 18px;
+        z-index: 20;
+        pointer-events: none;
+        color: #cfe9ff;
+        text-shadow: 0 0 10px rgba(124, 247, 255, 0.6);
       }
-      #brand .name { font-size: 15px; letter-spacing: 0.3em; font-weight: 600; }
-      #brand .tag { font-size: 10px; letter-spacing: 0.15em; color: #6d8aa8; margin-top: 3px; }
+      #brand .name {
+        font-size: 15px;
+        letter-spacing: 0.3em;
+        font-weight: 600;
+      }
+      #brand .tag {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        color: #6d8aa8;
+        margin-top: 3px;
+      }
 
       #crosshair {
-        position: fixed; top: 50%; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px;
-        border: 1px solid rgba(124,247,255,0.0); border-radius: 50%; z-index: 15; pointer-events: none;
-        transition: border-color .2s ease, transform .2s ease;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        margin: -3px 0 0 -3px;
+        border: 1px solid rgba(124, 247, 255, 0);
+        border-radius: 50%;
+        z-index: 15;
+        pointer-events: none;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
       }
-      #crosshair.aim { border-color: rgba(124,247,255,0.85); transform: scale(2.2); }
+      #crosshair.aim {
+        border-color: rgba(124, 247, 255, 0.85);
+        transform: scale(2.2);
+      }
 
-      .lil-gui { --width: 300px; }
+      .lil-gui {
+        --width: 300px;
+      }
     </style>
-    <script type="module" crossorigin src="./assets/index-CHexFAXe.js"></script>
+    <script type="module" crossorigin src="./assets/index-BoYWgAlp.js"></script>
   </head>
   <body>
     <div id="app"></div>
@@ -64,7 +182,8 @@
     <div id="crosshair"></div>
 
     <div id="hint">
-      WASD / 方向键 移动 · 鼠标拖拽 环视 · 滚轮 缩放 · Shift 加速 · 右键按住 变焦景深 · F 切换飞行/环绕
+      WASD / 方向键 移动 · 鼠标拖拽 环视 · 滚轮 缩放 · Shift 加速 · 右键按住
+      变焦景深 · F 切换飞行/环绕
     </div>
 
     <div id="boot">
